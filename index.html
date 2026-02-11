@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wedding Invitation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+
+ <style>
+  .script-font {
+      font-family: 'Playfair Display', serif;
+    }
+
+  /* Floating petals container */
+  .petals,
+  .sparkles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 5;
+  }
+
+  /* Petal shape */
+  .petal {
+    position: absolute;
+    top: -10%;
+    width: 18px;
+    height: 18px;
+    background: radial-gradient(circle, #fbcfe8, #f9a8d4);
+    border-radius: 70% 30% 70% 30%;
+    opacity: 0.8;
+    animation: fall linear infinite, sway ease-in-out infinite;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh) rotate(360deg);
+    }
+  }
+
+  @keyframes sway {
+    50% {
+      margin-left: 40px;
+    }
+  }
+
+  /* Sparkles */
+  .sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.6;
+    box-shadow: 0 0 10px white;
+    animation: twinkle 3s infinite ease-in-out;
+  }
+
+  @keyframes twinkle {
+    50% {
+      opacity: 0.1;
+      transform: scale(0.4);
+    }
+  }
+</style>
+
+
+</head>
+    <body class="min-h-screen flex justify-center bg-gradient-to-br from-purple-100 via-pink-50 to-indigo-100 overflow-x-hidden">
+
+
+	<!-- Floating Effects -->
+	<div class="petals"></div>
+	<div class="sparkles"></div>
+
+	
+	<!-- Background Music -->
+	<audio id="bgMusic" preload="auto" loop>
+	<source src="ngiti.mp3" type="audio/mpeg" />
+	
+	</audio>
+
+	<!-- Music Toggle Button -->
+	
+	
+	<button
+  id="musicToggle"
+  class="fixed bottom-6 right-6 z-[99999] bg-purple-600 text-white px-4 py-3 rounded-full shadow-lg"
+>
+  ▶ Play Music
+</button>
+
+
+  <div class="bg-white shadow-2xl rounded-3xl max-w-3xl w-full p-10 text-center relative overflow-hidden">
+
+
+
+
+
+    <!-- Decorative background -->
+    <div class="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(circle_at_top,_#c4b5fd,_transparent_60%)]"></div>
+
+
+    <div class="relative z-10">
+	  <h1 class="script-font text-6xl font-bold text-purple-700 mb-4">John & Jessica</h1>
+      <h3 class="italic text-gray-500 mb-4">You are invited! <br>
+
+You have shared in our lives with your love and friendship. Please join us, John & Jessica, as we honor Jehovah on our wedding.</h3>
+
+      
+<br>
+
+
+
+      <div class="grid grid-cols-3 gap-4">
+
+        <div>
+          <p class="font-semibold">📅 Date</p>
+          <p>June 29, 2026</p>
+        </div>
+        <div>
+          <p class="font-semibold">⏰ Time</p>
+          <p>2:30 PM</p>
+        </div>
+        <div>
+          <p class="font-semibold">📍 Venue</p>
+          <p>Kingdom Hall of Jehovah's Witnesses - Magsaysay<br/>Occidental Mindoro, Philippines</p>
+        </div>
+		<div>
+          <p class="font-semibold">👗 Dress Code</p>
+          <p>Formal Attire</p>
+        </div>
+		<div>
+          <p class="font-semibold">⏰ Time at Reception</p>
+          <p>5:00 PM</p>
+        </div>
+		<div>
+          <p class="font-semibold">📍 Reception</p>
+          <p>Grandiya's Venue & Restaurant</p>
+        </div>
+		
+      </div>
+
+      <div class="border-t border-gray-200 pt-8 mb-8">
+        <p class="italic text-gray-600">
+          Ceremony followed by reception
+        </p>
+        
+      </div>
+
+      <!-- Countdown Timer -->
+      <div id="countdown" class="flex justify-center gap-8 mb-8 text-purple-700">
+        <div class="text-center">
+          <p id="days" class="text-3xl font-bold">0</p>
+          <p class="text-sm uppercase">Days</p>
+        </div>
+        <div class="text-center">
+          <p id="hours" class="text-3xl font-bold">0</p>
+          <p class="text-sm uppercase">Hours</p>
+        </div>
+        <div class="text-center">
+          <p id="minutes" class="text-3xl font-bold">0</p>
+          <p class="text-sm uppercase">Minutes</p>
+        </div>
+        <div class="text-center">
+          <p id="seconds" class="text-3xl font-bold">0</p>
+          <p class="text-sm uppercase">Seconds</p>
+        </div>
+      </div>
+
+     
+
+      <script>
+        const weddingDate = new Date("June 29, 2026 10:00:00").getTime();
+
+        const countdownInterval = setInterval(() => {
+          const now = new Date().getTime();
+          const distance = weddingDate - now;
+
+          if (distance < 0) {
+            clearInterval(countdownInterval);
+            document.getElementById("countdown").innerHTML = "<p class='text-xl'>Today is the Big Day! 🎉</p>";
+            return;
+          }
+
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          document.getElementById("days").textContent = days;
+          document.getElementById("hours").textContent = hours;
+          document.getElementById("minutes").textContent = minutes;
+          document.getElementById("seconds").textContent = seconds;
+        }, 1000);
+      </script>
+
+      <p class="mt-6 text-sm text-gray-500">Please respond by May 20, 2026</p>
+    </div>
+
+  <!-- QR Code Share -->
+      <section class="mt-20 py-10 bg-purple-50 rounded-3xl text-center">
+	  <h2 class="script-font text-3xl text-purple-700 mb-4">Scan to RSVP</h2>
+  
+      <div class="flex justify-center mb-4">
+      <div id="rsvp-qrcode" class="bg-white p-4 rounded-xl shadow-md border-4 border-white"></div>
+    </div>
+   </section>
+
+     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+<script>
+  // Your specific Google Form RSVP Link
+  const rsvpFormURL = "https://docs.google.com/forms/d/e/1FAIpQLSeIFpt0FvQx2TlUCiKTbLYDaSbUYIemjW4aY-0ShpTzMLAW6w/viewform";
+
+  // Generate the QR Code
+  new QRCode(document.getElementById("rsvp-qrcode"), {
+    text: rsvpFormURL,
+    width: 200,
+    height: 200,
+    colorDark: "#7e22ce", // Purple color to match your theme
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H // High correction level (best for scanning)
+  });
+</script>
+
+
+      <!-- QR Code Share -->
+      <section class="mt-16">
+        <h2 class="script-font text-4xl text-purple-700 mb-4">Share Our Invitation</h2>
+        <p class="text-gray-600 mb-6">Scan or share this QR code with friends and family</p>
+
+        <div class="flex justify-center">
+          <div id="qrcode" class="bg-white p-4 rounded-2xl shadow-lg"></div>
+        </div>
+      </section>
+
+      <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+      <script>
+        const inviteURL = window.location.href;
+
+        new QRCode(document.getElementById("qrcode"), {
+          text: inviteURL,
+          width: 180,
+          height: 180,
+        });
+      </script>
+	  
+<!-- SWIPE GALLERY -->
+<section class="mt-16 text-center">
+
+  <h2 class="script-font text-4xl text-purple-700 mb-8">
+    PRENUPTIAL PHOTOS
+  </h2>
+
+  <div class="relative max-w-5xl mx-auto overflow-hidden">
+
+    <!-- Slides Wrapper -->
+    <div
+  id="galleryTrack"
+  class="flex items-center transition-transform duration-500 ease-in-out touch-pan-x"
+>
+
+
+      <img src="prenup1.jpg" class="gallery-slide" />
+      <img src="prenup2.jpg" class="gallery-slide" />
+      <img src="prenup3.jpg" class="gallery-slide" />
+      <img src="prenup4.jpg" class="gallery-slide" />
+      <img src="prenup5.jpg" class="gallery-slide" />
+      <img src="prenup6.jpg" class="gallery-slide" />
+      <img src="prenup7.jpg" class="gallery-slide" />
+      <img src="prenup8.jpg" class="gallery-slide" />
+
+    </div>
+
+    <!-- Arrows -->
+    <button
+      id="prevBtn"
+      class="absolute top-1/2 -translate-y-1/2 left-4 bg-white/80 backdrop-blur p-3 rounded-full shadow text-purple-700 hover:scale-110 transition"
+    >
+      ◀
+    </button>
+
+    <button
+      id="nextBtn"
+      class="absolute top-1/2 -translate-y-1/2 right-4 bg-white/80 backdrop-blur p-3 rounded-full shadow text-purple-700 hover:scale-110 transition"
+    >
+      ▶
+    </button>
+
+  </div>
+
+</section>
+
+
+   
+
+<!-- Entourage Lineup -->
+<section class="mt-20">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <h2 class="script-font text-4xl text-purple-700 mb-12 text-center">
+      Wedding Entourage
+    </h2>
+
+    <!-- Couple Names -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-10">
+
+      <!-- Groom Header -->
+      <div class="text-center">
+        <p class="script-font text-3xl text-purple-800">GROOM</p>
+        <h3 class="text-2xl font-semibold">John Gayo</h3>
+      </div>
+
+      <!-- Bride Header -->
+      <div class="text-center">
+        <p class="script-font text-3xl text-purple-800">BRIDE</p>
+        <h3 class="text-2xl font-semibold">Anita Jessica Esguerra</h3>
+      </div>
+
+    </div>
+
+    <!-- Two Columns -->
+    <div class="grid grid-cols-2 gap-12">
+
+
+      <!-- Groom Side -->
+      <div class="bg-purple-50 border border-purple-200 rounded-3xl p-8 shadow">
+        <h4 class="text-xl font-semibold text-purple-700 mb-6 text-center">
+          GROOM'S SIDE
+        </h4>
+		
+	<div class="space-y-5 text-center">
+	
+		  <div>
+            <p class="font-semibold">PARENTS OF THE GROOM</p>
+            <p class="text-gray-600">The late Jessie Gayo Sr.</p>
+			<p class="text-gray-600">Raquel Gayo</p>
+          </div>
+          <div>
+            <p class="font-semibold">BEST MAN</p>
+            <p class="text-gray-600">Junior Medina</p>
+          </div>
+		  
+		  <div>
+            <p class="font-semibold">LITTLE GROOMSMEN</p>
+            <p class="text-gray-600">Math Geo Gayo</p>
+			<p class="text-gray-600">Miguel Isaiah Reyes</p>
+          </div>
+<br>
+<br>
+<br>
+          <div>
+            <p class="font-semibold">GROOMSMEN</p>
+            <p class="text-gray-600">Mareo Iñigo Reyes</p>
+			<p class="text-gray-600">Niel Cedrick Mina</p>
+			<p class="text-gray-600">John Keneth Domingo</p>
+			<p class="text-gray-600">Jon Viel Felipe</p>
+			<p class="text-gray-600">CJ Esguerra</p>
+			<p class="text-gray-600">Neil Adrian Timothy Navarro</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bride Side -->
+      <div class="bg-purple-50 border border-purple-200 rounded-3xl p-8 shadow">
+        <h4 class="text-xl font-semibold text-purple-700 mb-6 text-center">
+          BRIDE'S SIDE
+        </h4>
+
+        <div class="space-y-5 text-center">
+		  <div>
+            <p class="font-semibold">PARENTS OF THE BRIDE</p>
+            <p class="text-gray-600">Alfonso Esguerra Jr.</p>
+			<p class="text-gray-600">Meriam Esguerra</p>
+          </div>
+          <div>
+            <p class="font-semibold">MAID OF HONOR</p>
+            <p class="text-gray-600">Sandra Leslie Esguerra</p>
+          </div>
+		  <div>
+            <p class="font-semibold">FLOWER GIRLS</p>
+            <p class="text-gray-600">Chia Xandria Valeña</p>
+			<p class="text-gray-600">Jerielle Louise Domingo</p>
+			<p class="text-gray-600">Venice Ayesha Cailing</p>
+			<p class="text-gray-600">Kayze Margeary Ferrer</p>
+			<p class="text-gray-600">Princess Abby Gayo</p>
+          </div>
+
+          <div>
+            <p class="font-semibold">BRIDESMAIDS</p>
+            <p class="text-gray-600">Kim Jeilou Domingo</p>
+			<p class="text-gray-600">Shyra Heather Gallardo</p>
+			<p class="text-gray-600">Jhoanna Lyn Ngaw</p>
+			<p class="text-gray-600">Charisse Mina</p>
+			<p class="text-gray-600">Jermina Pacunla</p>
+			<p class="text-gray-600">Kaezel Mae Calazara</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<br>
+ <div class="bg-purple-50 border border-purple-100 rounded-3xl p-6 shadow">
+        <h4 class="text-xl font-semibold text-purple-700 mb-6 text-center">
+          WITNESSES
+        </h4>
+		<p class="text-gray-600">Tony Cargo & Riza Cargo</p>
+		<p class="text-gray-600">Marie Rose Ann Reyes & Angelo Reyes</p>
+		</div>
+		<br>
+ <div class="bg-purple-50 border border-purple-100 rounded-3xl p-6 shadow">
+        <h4 class="text-xl font-semibold text-purple-700 mb-6 text-center">
+          OFFICIATING MINISTER
+        </h4>
+		<p class="text-gray-600">Joel Acebes</p>
+		</div>
+		<br>
+ <div class="bg-purple-50 border border-purple-100 rounded-3xl p-6 shadow">
+        <h4 class="text-xl font-semibold text-purple-700 mb-6 text-center">
+          DIRECTOR OF THE FEAST
+        </h4>
+		<p class="text-gray-600">Rocky Cueto</p>
+		<br>
+		 <h4 class="text-xl font-semibold text-purple-700 mb-6 text-center">
+          DIRECTOR OF THE CEREMONY
+        </h4>
+		<p class="text-gray-600">Sam Rojo</p>
+		</div>
+		<br>
+ <div class="bg-purple-50 border border-purple-100 rounded-3xl p-6 shadow">
+        <h4 class="text-xl font-semibold text-purple-700 mb-6 text-center">
+          CHAIRMAN OF THE CEREMONY
+        </h4>
+		<p class="text-gray-600">Jet Esguerra</p>
+		</div>
+		<br>
+ <div class="bg-purple-50 border border-purple-100 rounded-3xl p-6 shadow">
+        <h4 class="text-xl font-semibold text-purple-700 mb-6 text-center">
+          OPENING PRAYER
+        </h4>
+		<p class="text-gray-600">Felipe Medina</p>
+		<br>
+		<h4 class="text-xl font-semibold text-purple-700 mb-6 text-center">
+          MEAL PRAYER
+        </h4>
+		<p class="text-gray-600">Jay Aragon</p>
+		</div>
+		
+    
+<section class="mt-5">
+  <div class="max-w-6xl mx-auto px-6">
+
+
+   
+
+    <!-- Two Columns -->
+    <div class="grid grid-cols-2 gap-12">
+
+      <!-- Ushers Side -->
+      <div class="bg-purple-50 border border-purple-200 rounded-3xl p-8 shadow">
+        <h4 class="text-xl font-semibold text-purple-700 mb-6 text-center">
+          USHERS
+        </h4>
+		
+	<div class="space-y-5 text-center">
+	
+		  <div>
+            <p class="text-gray-600">Von Ryan Mazo</p>
+			<p class="text-gray-600">Samuel Nacario</p>
+			<p class="text-gray-600">Roylan Cartagena</p>
+			<p class="text-gray-600">Arvin John Estimada</p>
+			<p class="text-gray-600">Mark Cortez</p>
+			<p class="text-gray-600">Glenn Al Tero</p>
+			<p class="text-gray-600">Jether Autriz</p>
+			<p class="text-gray-600">Jhon Fhilip Gayo</p>
+			<p class="text-gray-600">Mark Joseph Gayo</p>
+			<p class="text-gray-600">Franz Henschel Esguerra</p>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- Bride Side -->
+      <div class="bg-purple-50 border border-purple-200 rounded-3xl p-8 shadow">
+        <h4 class="text-xl font-semibold text-purple-700 mb-6 text-center">
+          USHERETTES
+        </h4>
+
+        <div class="space-y-5 text-center">
+		  <div>   
+            <p class="text-gray-600">Mica Pacunla</p>
+			<p class="text-gray-600">Precious Antonio</p>
+			<p class="text-gray-600">Joy Cargo</p>
+			<p class="text-gray-600">Kirsten Zeal Medina</p>
+			<p class="text-gray-600">Rix Difuntorum</p>
+			<p class="text-gray-600">Rae Feliciano</p>
+			<p class="text-gray-600">Carmina Autriz</p>
+			<p class="text-gray-600">Jessica Reign Domingo</p>
+			<p class="text-gray-600">Khryss Gayo</p>
+			<p class="text-gray-600">Lei Airishane Esguerra</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+		  <br>
+ <div class="bg-purple-50 border border-purple-100 rounded-3xl p-6 shadow">
+        <h4 class="text-xl font-semibold text-purple-700 mb-6 text-center">
+          RECEPTION EMCEES
+        </h4>
+		<p class="text-gray-600">Edgar Nonong Jr.</p>
+		<p class="text-gray-600">Marisol Nonong</p>
+		</div>
+		<br>
+
+<!-- FULLSCREEN IMAGE VIEWER -->
+<div
+  id="lightbox"
+  class="fixed inset-0 bg-black/90 hidden items-center justify-center z-[9999]"
+>
+  <button
+    id="closeLightbox"
+    class="absolute top-6 right-6 text-white text-5xl font-bold"
+  >
+    &times;
+  </button>
+
+  <img
+    id="lightboxImg"
+    src=""
+    class="max-w-[95vw] max-h-[90vh] object-contain rounded-2xl"
+  />
+</div>
+
+<style>
+  .gallery-img {
+    cursor: pointer;
+    border-radius: 1rem;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .gallery-img:hover {
+    transform: scale(1.05);
+  }
+ .gallery-slide {
+  min-width: 100%;
+  max-height: 80vh;
+  width: 100%;
+  object-fit: contain;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  background: #f5f3ff; /* soft purple backdrop */
+}
+
+
+ @media (max-width: 768px) {
+  .gallery-slide {
+    max-height: 65vh;
+  }
+}
+
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const images = document.querySelectorAll(".gallery-img");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const closeBtn = document.getElementById("closeLightbox");
+
+    images.forEach((img) => {
+      img.addEventListener("click", () => {
+        lightboxImg.src = img.src;
+        lightbox.classList.remove("hidden");
+        lightbox.classList.add("flex");
+      });
+    });
+
+    closeBtn.addEventListener("click", () => {
+      lightbox.classList.add("hidden");
+      lightbox.classList.remove("flex");
+    });
+
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) {
+        lightbox.classList.add("hidden");
+        lightbox.classList.remove("flex");
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        lightbox.classList.add("hidden");
+        lightbox.classList.remove("flex");
+      }
+    });
+  });
+</script>
+
+<script>
+  const bgMusic = document.getElementById("bgMusic");
+  const musicToggle = document.getElementById("musicToggle");
+
+  let isPlaying = false;
+
+  function startMusic() {
+    bgMusic.play().catch(() => {});
+    isPlaying = true;
+    musicToggle.textContent = "🔇 Mute";
+  }
+
+  musicToggle.addEventListener("click", () => {
+    if (!isPlaying) {
+      startMusic();
+    } else {
+      bgMusic.pause();
+      isPlaying = false;
+      musicToggle.textContent = "🔊 Music";
+    }
+  });
+
+  // Try to autoplay after first interaction anywhere
+  document.addEventListener("click", () => {
+    if (!isPlaying) {
+      startMusic();
+    }
+  }, { once: true });
+</script>
+
+<script>
+  /* CREATE PETALS */
+  const petalsContainer = document.querySelector(".petals");
+  for (let i = 0; i < 25; i++) {
+    const petal = document.createElement("div");
+    petal.className = "petal";
+
+    const size = Math.random() * 15 + 10;
+    petal.style.width = size + "px";
+    petal.style.height = size + "px";
+
+    petal.style.left = Math.random() * 100 + "vw";
+    petal.style.animationDuration =
+      Math.random() * 10 + 10 + "s, " + (Math.random() * 5 + 5) + "s";
+
+    petal.style.opacity = Math.random() * 0.6 + 0.4;
+
+    petalsContainer.appendChild(petal);
+  }
+
+  /* CREATE SPARKLES */
+  const sparkleContainer = document.querySelector(".sparkles");
+  for (let i = 0; i < 40; i++) {
+    const sparkle = document.createElement("div");
+    sparkle.className = "sparkle";
+
+    sparkle.style.top = Math.random() * 100 + "vh";
+    sparkle.style.left = Math.random() * 100 + "vw";
+    sparkle.style.animationDelay = Math.random() * 5 + "s";
+
+    sparkleContainer.appendChild(sparkle);
+  }
+
+  /* PARALLAX SCROLL */
+  window.addEventListener("scroll", () => {
+    const scrolled = window.scrollY;
+    document.body.style.backgroundPositionY = scrolled * 0.25 + "px";
+  });
+</script>
+
+<script>
+  const track = document.getElementById("galleryTrack");
+  const slides = document.querySelectorAll(".gallery-slide");
+  const nextBtn = document.getElementById("nextBtn");
+  const prevBtn = document.getElementById("prevBtn");
+
+  let index = 0;
+
+  function updateGallery() {
+    track.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  nextBtn.addEventListener("click", () => {
+    index = (index + 1) % slides.length;
+    updateGallery();
+  });
+
+  prevBtn.addEventListener("click", () => {
+    index = (index - 1 + slides.length) % slides.length;
+    updateGallery();
+  });
+
+  // CLICK IMAGE → FULLSCREEN
+  slides.forEach((img) => {
+    img.addEventListener("click", () => {
+      openLightbox(img.src);
+    });
+  });
+
+  /* TOUCH SWIPE */
+  let startX = 0;
+
+  track.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+  });
+
+  track.addEventListener("touchend", (e) => {
+    const endX = e.changedTouches[0].clientX;
+    const diff = startX - endX;
+
+    if (diff > 60) {
+      index = (index + 1) % slides.length;
+      updateGallery();
+    }
+
+    if (diff < -60) {
+      index = (index - 1 + slides.length) % slides.length;
+      updateGallery();
+    }
+  });
+</script>
+
+
+</body>
+</html>
